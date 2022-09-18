@@ -1,10 +1,10 @@
 <?php include "includes/header.php" ?>
 <?php include "includes/db.php" ?>
-<!-- Navigation -->
+    <!-- Navigation -->
 <?php include "includes/navigation.php" ?>
 
-<!-- Page Content -->
-<div class="container">
+    <!-- Page Content -->
+    <div class="container">
 
     <div class="row">
 
@@ -13,10 +13,9 @@
 
             <?php
             if (isset($_GET['p_id'])) {
-                $the_post_id =  $_GET['p_id'];
+                $the_post_id = $_GET['p_id'];
                 $view_query = "UPDATE posts SET post_views_count = post_views_count +1 WHERE post_id = $the_post_id ";
                 $send_query = mysqli_query($connection, $view_query);
-
 
 
                 if (isset($_SESSION['user_role']) && $_SESSION['user_role'] == 'admin') {
@@ -24,10 +23,6 @@
                 } else {
                     $query = "SELECT * FROM posts WHERE post_id = $the_post_id AND post_status ='published' ";
                 }
-
-
-
-
 
 
                 $select_all_posts_query = mysqli_query($connection, $query);
@@ -44,7 +39,7 @@
                         $post_image = $row['post_image'];
                         $post_content = $row['post_content'];
 
-            ?>
+                        ?>
 
 
                         <h1 class="page-header">
@@ -61,7 +56,7 @@
                         </p>
                         <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
                         <hr>
-                        <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
+                        <img class="img-responsive" src="images/<?php echo imagePlaceholder($post_image); ?>" alt="">
                         <hr>
                         <p><?php echo $post_content ?></p>
 
@@ -75,7 +70,7 @@
                     <!-- Blog Comments -->
                     <?php
                     if (isset($_POST['create_comment'])) {
-                        $the_post_id =  $_GET['p_id'];
+                        $the_post_id = $_GET['p_id'];
                         $comment_author = $_POST['comment_author'];
                         $comment_email = $_POST['comment_email'];
                         $comment_content = $_POST['comment_content'];
@@ -92,12 +87,6 @@
                             echo "<script>alert('Fields cannot be empty')</script>";
                         }
                     }
-
-
-
-
-
-
 
 
                     ?>
@@ -135,7 +124,7 @@
                         $comment_content = $row['comment_content'];
                         $comment_author = $row['comment_author'];
 
-                    ?>
+                        ?>
 
                         <!-- Comment -->
                         <div class="media">
@@ -149,7 +138,7 @@
                                 <?php echo $comment_content; ?>
                             </div>
                         </div>
-            <?php
+                        <?php
 
 
                     }
@@ -169,4 +158,4 @@
     <!-- /.row -->
 
     <hr>
-    <?php include "includes/footer.php" ?>
+<?php include "includes/footer.php" ?>

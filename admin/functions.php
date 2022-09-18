@@ -1,6 +1,15 @@
 <?php
 
 
+function imagePlaceholder($image = '')
+{
+    if (!$image) {
+        return 'image_1.jpg';
+    } else {
+        return $image;
+    }
+}
+
 function escape($string)
 {
     global $connection;
