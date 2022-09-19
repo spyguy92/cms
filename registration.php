@@ -1,7 +1,24 @@
 <?php include "includes/db.php"; ?>
 <?php include "includes/header.php"; ?>
 
+
 <?php
+
+require 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$options = array(
+    'cluster' => 'ap2',
+    'useTLS' => true
+);
+$pusher = new Pusher\Pusher(
+    $_ENV['APP_KEY'],
+    $_ENV['APP_SECRET'],
+    $_ENV['APP_ID'],
+    $options
+);
+
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $username = trim($_POST['username']);
@@ -37,20 +54,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     if (empty($error)) {
         register_user($username, $email, $password);
-
+        $data['message'] = $username;
+        $pusher->trigger('my-channel', 'my-event', $data);
+        login_user($username, $password);
     }
-    login_user($username, $password);
 }
 
 
 ?>
-    <!-- Navigation -->
+<!-- Navigation -->
 
 <?php include "includes/navigation.php"; ?>
 
 
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
     <section id="login">
         <div class="container">
@@ -58,32 +76,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div class="col-xs-6 col-xs-offset-3">
                     <div class="form-wrap">
                         <h1>Register</h1>
-                        <form role="form" action="registration.php" method="post" id="login-form"
-                              autocomplete="off">
+                        <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
                             <div class="form-group">
                                 <label for="username" class="sr-only">username</label>
-                                <input type="text" name="username" id="username" class="form-control"
-                                       placeholder="Enter Desired Username" autocomplete="on"
-                                       value="<?php echo isset($username) ? $username : '' ?>">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username" autocomplete="on" value="<?php echo isset($username) ? $username : '' ?>">
                                 <p><?php echo isset($error['username']) ? $error['username'] : '' ?></p>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="sr-only">Email</label>
-                                <input type="email" name="email" id="email" class="form-control"
-                                       placeholder="somebody@example.com" autocomplete="on"
-                                       value="<?php echo isset($email) ? $email : '' ?>">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com" autocomplete="on" value="<?php echo isset($email) ? $email : '' ?>">
                                 <p><?php echo isset($error['email']) ? $error['email'] : '' ?></p>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="sr-only">Password</label>
-                                <input type="password" name="password" id="password" class="form-control"
-                                       placeholder="Password">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                                 <p><?php echo isset($error['password']) ? $error['password'] : '' ?></p>
                             </div>
 
-                            <input type="submit" name="register" id="btn-login"
-                                   class="btn btn-custom btn-lg btn-block"
-                                   value="Register">
+                            <input type="submit" name="register" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
                         </form>
 
                     </div>
@@ -96,4 +106,4 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <hr>
 
 
-<?php include "includes/footer.php"; ?>
+    <?php include "includes/footer.php"; ?>

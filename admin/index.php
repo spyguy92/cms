@@ -1,6 +1,6 @@
 <?php include "includes/admin_header.php" ?>
 
-    <div id="wrapper">
+<div id="wrapper">
 
     <!-- Navigation -->
 
@@ -178,4 +178,18 @@
     </div>
     <!-- /#page-wrapper -->
 
-<?php include "includes/admin_footer.php"; ?>
+    <?php include "includes/admin_footer.php"; ?>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        var pusher = new Pusher('af51c530b3ede7c9681c', {
+            cluster: 'ap2'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            var message = data.message;
+            toastr.success(`${message} just registered`);
+        });
+    </script>

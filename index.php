@@ -1,10 +1,10 @@
 <?php include "includes/header.php" ?>
 <?php include "includes/db.php" ?>
-    <!-- Navigation -->
+<!-- Navigation -->
 <?php include "includes/navigation.php" ?>
 
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
     <div class="row">
 
@@ -61,7 +61,7 @@
                     $post_satus = $row['post_status'];
 
 
-                    ?>
+            ?>
 
 
                     <h1 class="page-header">
@@ -71,7 +71,7 @@
 
                     <!-- First Blog Post -->
                     <h2>
-                        <a href="post/<?php echo $post_id ?>"><?php echo $post_title ?></a>
+                        <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
                     </h2>
                     <p class="lead">
                         by
@@ -79,18 +79,15 @@
                     </p>
                     <p><span class="glyphicon glyphicon-time"></span> <?php echo $post_date ?></p>
                     <hr>
-                    <a href="post.php?p_id=<?php echo $post_id ?>"><img class="img-responsive"
-                                                                        src="images/<?php echo imagePlaceholder($post_image); ?>"
-                                                                        alt=""></a>
+                    <a href="post.php?p_id=<?php echo $post_id ?>"><img class="img-responsive" src="images/<?php echo imagePlaceholder($post_image); ?>" alt=""></a>
                     <hr>
                     <p><?php echo $post_content ?></p>
-                    <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id ?>">Read More <span
-                                class="glyphicon glyphicon-chevron-right"></span></a>
+                    <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                     <hr>
 
 
-                <?php }
+            <?php }
             } ?>
 
 
@@ -118,4 +115,4 @@
         ?>
 
     </ul>
-<?php include "includes/footer.php" ?>
+    <?php include "includes/footer.php" ?>
